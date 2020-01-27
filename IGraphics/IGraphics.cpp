@@ -128,24 +128,8 @@ void IGraphics::RemoveControls(int fromIdx)
   int idx = NControls()-1;
   while (idx >= fromIdx)
   {
-    IControl* pControl = GetControl(idx);
-    
-    if (pControl == mMouseCapture)
-      mMouseCapture = nullptr;
-
-    if (pControl == mMouseOver)
-      ClearMouseOver();
-
-    if (pControl == mInTextEntry)
-      mInTextEntry = nullptr;
-
-    if (pControl == mInPopupMenu)
-      mInPopupMenu = nullptr;
-    
-    mControls.Delete(idx--, true);
+    RemoveControl(idx--);
   }
-  
-  SetAllControlsDirty();
 }
 
 void IGraphics::RemoveAllControls()
@@ -164,6 +148,36 @@ void IGraphics::RemoveAllControls()
 #endif
   
   mControls.Empty(true);
+}
+
+void IGraphics::RemoveControl(IControl* pControl, bool pWantsDelete)
+{
+  return RemoveControl(mControls.Find(pControl), pWantsDelete);
+}
+
+void IGraphics::RemoveControl(int paramIdx, bool pWantsDelete)
+{
+  IControl* pControl = GetControl(paramIdx);
+
+  if (pControl == nullptr)
+    return;
+
+  pControl->OnDetached();
+
+  if (pControl == mMouseCapture)
+    mMouseCapture = nullptr;
+
+  if (pControl == mMouseOver)
+    ClearMouseOver();
+
+  if (pControl == mInTextEntry)
+    mInTextEntry = nullptr;
+
+  if (pControl == mInPopupMenu)
+    mInPopupMenu = nullptr;
+
+  mControls.DeletePtr(pControl, pWantsDelete);
+  SetAllControlsDirty();
 }
 
 void IGraphics::SetControlValueAfterTextEdit(const char* str)
@@ -220,6 +234,37 @@ IControl* IGraphics::AttachControl(IControl* pControl, int ctrlTag, const char* 
   pControl->SetTag(ctrlTag);
   pControl->SetGroup(group);
   mControls.Add(pControl);
+
+  WDL_PtrList<IControl> highPriority;
+  WDL_PtrList<IControl> lowPriority;
+  const int cCount = mControls.GetSize();
+  auto stackSortFunc = [](const IControl** a, const IControl** b) {
+    return (*a)->getRenderPriority() - (*b)->getRenderPriority();
+  };
+  for (int i = 0; i < cCount; i++) {
+    IControl* c = mControls.Get(i);
+    if (c == nullptr) {
+      return pControl;
+    }
+    const int prio = c->getRenderPriority();
+    if (prio > 0) {
+      highPriority.InsertSorted(c, stackSortFunc);
+    }
+    else if (prio < 0) {
+      lowPriority.InsertSorted(c, stackSortFunc);
+    }
+  }
+  for (int i = lowPriority.GetSize() - 1; i >= 0; i--) {
+    IControl* c = lowPriority.Get(i);
+    mControls.DeletePtr(c);
+    mControls.Insert(0, c);
+  }
+  for (int i = 0; i < highPriority.GetSize(); i++) {
+    IControl* c = highPriority.Get(i);
+    mControls.DeletePtr(c);
+    mControls.Add(c);
+  }
+
   pControl->OnAttached();
   return pControl;
 }
