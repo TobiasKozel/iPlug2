@@ -1273,13 +1273,14 @@ public:
   /** Calls SetClean() on every control */
   void SetAllControlsClean();
 
-private:
-  /** /todo
-   * @param x /todo
-   * @param y /todo
+  /** Returns the index to a IControl at a given coordinate
+   * @param x coordinate
+   * @param y coordinate
    * @param mouseOver /todo
-   * @return int /todo */
+   * @return int Index in the mControls list  */
   int GetMouseControlIdx(float x, float y, bool mouseOver = false);
+
+private:
   
   /** /todo
    * @param x /todo
