@@ -835,6 +835,11 @@ void IGraphics::Draw(IRECTList& rects)
   EndFrame();
 }
 
+void IGraphics::FillCircle(const IColor& color, IRECT& rect, const IBlend* pBlend) {
+  float r = rect.W() * 0.5;
+  FillCircle(color, rect.L + r, rect.T + r, r, pBlend);
+}
+
 void IGraphics::SetStrictDrawing(bool strict)
 {
   mStrict = strict;
