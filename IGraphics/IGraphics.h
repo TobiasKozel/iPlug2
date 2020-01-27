@@ -972,8 +972,9 @@ public:
   /** \todo detailed description of how this works
    * @param w New width in pixels
    * @param h New height in pixels
-   * @param scale New scale ratio */
-  void Resize(int w, int h, float scale);
+   * @param scale New scale ratio
+   * @param skipWindow will leave the window size as is */
+  void Resize(int w, int h, float scale, bool skipWindow = false);
   
   /** Enables strict drawing mode. \todo explain strict drawing
    * @param strict Set /true to enable strict drawing mode */
