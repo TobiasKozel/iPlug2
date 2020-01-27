@@ -447,6 +447,9 @@ public:
   /* This can be used in IControl::Draw() to check if the mouse is over the control, without implementing mouse over methods 
    * @return \true if the mouse is over this control. */
   bool GetMouseIsOver() const { return mMouseIsOver; }
+
+  /** Allows meta controls like scroll lists to handle mouse overs */
+  void SetMouseIsOver(const bool over) { mMouseIsOver = over; }
   
   /** Set control value based on x, y position within a rectangle. Commonly used for slider/fader controls.
    * @param x The X coordinate for snapping
