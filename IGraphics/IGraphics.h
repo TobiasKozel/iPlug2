@@ -297,6 +297,12 @@ public:
    * @param pBlend Optional blend method, see IBlend documentation */
   virtual void FillCircle(const IColor& color, float cx, float cy, float r, const IBlend* pBlend = 0) = 0;
 
+  /** Fill a circle in the graphics context with a color
+   * @param color The color to fill the shape with
+   * @param rect The rectangle to draw the circle in
+   * @param pBlend Optional blend method, see IBlend documentation */
+  virtual void FillCircle(const IColor& color, IRECT& rect, const IBlend* pBlend = 0);
+
   /** Fill an ellipse within a rectangular region of the graphics context
    * @param color The color to fill the shape with
    * @param bounds The rectangular region to fill the shape in
