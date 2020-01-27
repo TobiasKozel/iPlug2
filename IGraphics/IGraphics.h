@@ -1224,6 +1224,9 @@ public:
    * @return Pointer to currently captured control */
   IControl* GetCapturedControl() { return mMouseCapture; }
 
+  /** @param pControl The control to replace the currently captured control with, useful for drag and drop duplication */
+  void SetCapturedControl(IControl* pControl) { mMouseCapture = pControl; }
+
   /* Get the first control in the control list, the background */
   IControl* GetBackgroundControl() { return GetControl(0);  }
   
