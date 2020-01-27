@@ -1,0 +1,83 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$class_i_bitmap_base.html" title="A base interface, to be combined with IControl for bitmap&#45;based controls &quot;IBControls&quot;, managing an IBitmap and IBlend. " alt="" coords="200,1268,303,1295"/>
+<area shape="rect" id="node2" href="$class_i_b_button_control.html" title="A bitmap button/momentary switch control. " alt="" coords="432,459,555,485"/>
+<area shape="rect" id="node3" href="$class_i_bitmap_control.html" title="A basic control to draw a bitmap, or one frame of a stacked bitmap depending on the current value..." alt="" coords="435,1015,552,1041"/>
+<area shape="rect" id="node4" href="$class_i_b_knob_control.html" title="A bitmap knob/dial control that draws a frame from a stacked bitmap. " alt="" coords="437,1065,549,1092"/>
+<area shape="rect" id="node6" href="$class_i_b_slider_control.html" title="A bitmap slider/fader control. " alt="" coords="435,964,551,991"/>
+<area shape="rect" id="node7" href="$class_i_b_switch_control.html" title="A bitmap switch control. " alt="" coords="433,761,554,788"/>
+<area shape="rect" id="node8" href="$class_i_b_text_control.html" title="A control to display text using a monospace bitmap font. " alt="" coords="441,1521,546,1548"/>
+<area shape="rect" id="node5" href="$class_i_b_knob_rotater_control.html" title="A bitmap knob/dial control that rotates an image. " alt="" coords="636,1065,795,1092"/>
+<area shape="rect" id="node9" href="$class_i_control.html" title="The lowest level base class of an IGraphics control. " alt="" coords="19,1471,90,1497"/>
+<area shape="rect" id="node10" href="$class_g_f_x_label_control.html" title="Control to display the graphics backend. " alt="" coords="188,2383,315,2409"/>
+<area shape="rect" id="node11" href="$class_i_bubble_control.html" title="A special control to draw contextual info as a slider etc is moved If used in the main IControl stack..." alt="" coords="194,2433,309,2460"/>
+<area shape="rect" id="node12" href="$class_i_button_control_base.html" title="A base class for buttons/momentary switches &#45; cannot be linked to parameters. " alt="" coords="178,289,325,316"/>
+<area shape="rect" id="node15" href="$class_i_color_picker_control.html" title="A control for choosing a color. " alt="" coords="180,2484,323,2511"/>
+<area shape="rect" id="node16" href="$class_i_corner_resizer_control.html" title="A control for resizing the plug&#45;in window by clicking and dragging in the bottom right&#45;hand corner Th..." alt="" coords="172,863,331,889"/>
+<area shape="rect" id="node17" href="$class_i_dir_browse_control_base.html" title="An abstract IControl base class that you can inherit from in order to make a control that pops up a m..." alt="" coords="168,1927,335,1953"/>
+<area shape="rect" id="node19" href="$class_i_f_p_s_display_control.html" title="Performance display meter, based on code from NanoVG This is a special control that lives outside the..." alt="" coords="181,812,322,839"/>
+<area shape="rect" id="node20" href="$class_i_graphics_live_edit.html" title="A control to enable live modification of control layout in an IGraphics context in debug builds This ..." alt="" coords="186,913,317,940"/>
+<area shape="rect" id="node21" href="$class_i_knob_control_base.html" title="A base class for knob/dial controls, to handle mouse action and Sender. " alt="" coords="184,1420,319,1447"/>
+<area shape="rect" id="node32" href="$class_i_lambda_control.html" title="A control that can be specialised with a lambda function, for quick experiments without making a cust..." alt="" coords="190,1015,313,1041"/>
+<area shape="rect" id="node33" href="$class_i_panel_control.html" title="A basic control to fill a rectangle with a color or gradient. " alt="" coords="199,1065,304,1092"/>
+<area shape="rect" id="node34" href="$class_i_popup_menu_control.html" title="A base control for a pop&#45;up menu/drop&#45;down list that stays within the bounds of the IGraphics context..." alt="" coords="178,1116,325,1143"/>
+<area shape="rect" id="node35" href="$class_i_slider_control_base.html" title="A base class for slider/fader controls, to handle mouse action and Sender. " alt="" coords="182,964,321,991"/>
+<area shape="rect" id="node38" href="$class_i_s_v_g_control.html" title="A basic control to draw an SVG image to the screen. " alt="" coords="202,1167,301,1193"/>
+<area shape="rect" id="node39" href="$class_i_switch_control_base.html" title="A base class for switch controls. " alt="" coords="179,340,323,367"/>
+<area shape="rect" id="node46" href="$class_i_text_control.html" title="A basic control to display some text. " alt="" coords="203,1572,299,1599"/>
+<area shape="rect" id="node54" href="$class_i_text_entry_control.html" title="A Text entry widget drawn by IGraphics. " alt="" coords="187,1217,316,1244"/>
+<area shape="rect" id="node55" href="$class_i_v_display_control.html" title="IVDisplayControl" alt="" coords="188,543,315,569"/>
+<area shape="rect" id="node56" href="$class_i_v_group_control.html" title="IVGroupControl" alt="" coords="192,711,311,737"/>
+<area shape="rect" id="node57" href="$class_i_v_keyboard_control.html" title="Vectorial keyboard control. " alt="" coords="182,1369,321,1396"/>
+<area shape="rect" id="node58" href="$class_i_v_plot_control.html" title="a vector plot to display functions and waveforms " alt="" coords="199,593,303,620"/>
+<area shape="rect" id="node59" href="$class_i_v_scope_control.html" title="Vectorial multichannel capable oscilloscope control. " alt="" coords="158,645,345,686"/>
+<area shape="rect" id="node60" href="$class_i_v_track_control_base.html" title="A base class for mult&#45;strip/track controls, such as multi&#45;sliders, meters. " alt="" coords="179,87,323,113"/>
+<area shape="rect" id="node64" href="$class_i_v_x_y_pad_control.html" title="IVXYPadControl" alt="" coords="192,761,311,788"/>
+<area shape="rect" id="node65" href="$class_test_animation_control.html" title="Control to test animation. " alt="" coords="172,1471,331,1497"/>
+<area shape="rect" id="node66" href="$class_test_bezier_control.html" title="Control to test drawing bezier curves. " alt="" coords="185,1521,318,1548"/>
+<area shape="rect" id="node67" href="$class_test_color_control.html" title="Control to colors. " alt="" coords="188,1623,315,1649"/>
+<area shape="rect" id="node68" href="$class_test_cursor_control.html" title="Control to test changing the platform cursor. " alt="" coords="184,1673,319,1700"/>
+<area shape="rect" id="node69" href="$class_test_draw_context_control.html" title="Control to test obtaining a drawing API (NanoVG, LICE, Cairo, AGG etc) context and using that API wit..." alt="" coords="164,1724,339,1751"/>
+<area shape="rect" id="node70" href="$class_test_drop_shadow_control.html" title="Control to test layer drop shadows. " alt="" coords="164,1775,339,1801"/>
+<area shape="rect" id="node71" href="$class_test_flex_box_control.html" title="Control to test IGraphicsFlexBox. " alt="" coords="180,1825,323,1852"/>
+<area shape="rect" id="node72" href="$class_test_font_control.html" title="Control to test drawing fonts. " alt="" coords="191,1876,312,1903"/>
+<area shape="rect" id="node73" href="$class_test_g_l_control.html" title="TestGLControl" alt="" coords="196,1977,307,2004"/>
+<area shape="rect" id="node74" href="$class_test_image_control.html" title="Control to test drawing bitmaps. " alt="" coords="185,2028,318,2055"/>
+<area shape="rect" id="node75" href="$class_test_keyboard_control.html" title="Control to test keyboard input. " alt="" coords="175,2079,327,2105"/>
+<area shape="rect" id="node76" href="$class_test_m_p_s_control.html" title="TestMPSControl" alt="" coords="191,2129,312,2156"/>
+<area shape="rect" id="node77" href="$class_test_shadow_gradient_control.html" title="Control to test drawing shadows with gradients. " alt="" coords="152,2180,351,2207"/>
+<area shape="rect" id="node78" href="$class_test_size_control.html" title="Control to display the size of a region. " alt="" coords="191,2231,311,2257"/>
+<area shape="rect" id="node79" href="$class_test_s_v_g_control.html" title="Control to test drawing SVGs. " alt="" coords="191,2281,312,2308"/>
+<area shape="rect" id="node80" href="$class_test_text_control.html" title="Control to test drawing text. " alt="" coords="192,2332,311,2359"/>
+<area shape="rect" id="node13" href="$class_i_s_v_g_button_control.html" title="A vector button/momentary switch control which shows two SVG states. " alt="" coords="422,239,565,265"/>
+<area shape="rect" id="node14" href="$class_i_v_button_control.html" title="A vector button/momentary switch control. " alt="" coords="432,188,555,215"/>
+<area shape="rect" id="node18" href="$class_test_dir_browse_control.html" title="Control to test IDirBrowseControlBase. " alt="" coords="415,1977,572,2004"/>
+<area shape="rect" id="node22" href="$class_i_s_v_g_knob_control.html" title="A vector knob/dial control which rotates an SVG image. " alt="" coords="428,1420,559,1447"/>
+<area shape="rect" id="node23" href="$class_i_v_knob_control.html" title="A vector knob control drawn using graphics primitves. " alt="" coords="437,845,549,872"/>
+<area shape="rect" id="node24" href="$class_test_arc_control.html" title="Control to test drawing arcs. " alt="" coords="436,1471,551,1497"/>
+<area shape="rect" id="node25" href="$class_test_blend_control.html" title="Control to test blend methods. " alt="" coords="429,1572,558,1599"/>
+<area shape="rect" id="node26" href="$class_test_gradient_control.html" title="Control to test drawing gradients with path based drawing backends. " alt="" coords="419,1623,567,1649"/>
+<area shape="rect" id="node27" href="$class_test_layer_control.html" title="Control to test IGraphics layers. " alt="" coords="429,1116,557,1143"/>
+<area shape="rect" id="node28" href="$class_test_multi_path_control.html" title="Control to test drawing paths in path&#45;based drawing backends. " alt="" coords="418,1217,569,1244"/>
+<area shape="rect" id="node29" href="$class_test_poly_control.html" title="Control to test drawing polygons. " alt="" coords="434,1268,553,1295"/>
+<area shape="rect" id="node30" href="$class_test_text_orientation_control.html" title="Control to test drawing text with orientation. " alt="" coords="399,1319,588,1345"/>
+<area shape="rect" id="node31" href="$class_test_text_size_control.html" title="Control to test drawing text with varying size. " alt="" coords="421,1369,566,1396"/>
+<area shape="rect" id="node36" href="$class_i_s_v_g_slider_control.html" title="ISVGSliderControl" alt="" coords="426,913,561,940"/>
+<area shape="rect" id="node37" href="$class_i_v_slider_control.html" title="A vector slider control. " alt="" coords="435,644,551,671"/>
+<area shape="rect" id="node40" href="$class_i_s_v_g_switch_control.html" title="A vector switch control which shows one of multiple SVG states. " alt="" coords="423,391,563,417"/>
+<area shape="rect" id="node41" href="$class_i_v_switch_control.html" title="A vector switch control. " alt="" coords="433,289,554,316"/>
+<area shape="rect" id="node44" href="$class_i_v_tab_switch_control.html" title="A vector &quot;tab&quot; multi switch control. " alt="" coords="422,340,565,367"/>
+<area shape="rect" id="node42" href="$class_i_v_slide_switch_control.html" title="/todo. " alt="" coords="639,289,791,316"/>
+<area shape="rect" id="node43" href="$class_i_v_toggle_control.html" title="A vector toggle control. " alt="" coords="655,239,775,265"/>
+<area shape="rect" id="node45" href="$class_i_v_radio_button_control.html" title="IVRadioButtonControl" alt="" coords="636,340,795,367"/>
+<area shape="rect" id="node47" href="$class_i_caption_control.html" title="A control to display the textual representation of a parameter. " alt="" coords="433,1876,553,1903"/>
+<area shape="rect" id="node48" href="$class_i_r_t_text_control.html" title="A control to display some text in the UI, driven by values in the RT audio thread. " alt="" coords="420,1927,567,1953"/>
+<area shape="rect" id="node49" href="$class_i_text_toggle_control.html" title="ITextToggleControl" alt="" coords="425,1673,561,1700"/>
+<area shape="rect" id="node50" href="$class_i_u_r_l_control.html" title="IURLControl" alt="" coords="445,1724,541,1751"/>
+<area shape="rect" id="node51" href="$class_i_v_label_control.html" title="IVLabelControl" alt="" coords="436,1167,551,1193"/>
+<area shape="rect" id="node52" href="$class_place_holder.html" title="A control to use as a placeholder during development. " alt="" coords="444,1775,543,1801"/>
+<area shape="rect" id="node53" href="$class_test_gestures_control.html" title="Control to test multi gesture recognizers. " alt="" coords="418,1825,569,1852"/>
+<area shape="rect" id="node61" href="$class_i_v_meter_control.html" title="Vectorial multichannel capable meter control. " alt="" coords="402,57,585,98"/>
+<area shape="rect" id="node62" href="$class_i_v_multi_slider_control.html" title="A vectorial multi&#45;slider control. " alt="" coords="420,122,567,163"/>
+<area shape="rect" id="node63" href="$class_i_v_range_slider_control.html" title="IVRangeSliderControl" alt="" coords="415,5,571,32"/>
+<area shape="rect" id="node81" href="$class_i_vector_base.html" title="A base interface to be combined with IControl for vectorial controls &quot;IVControls&quot;, in order for them to share a common style If you need more flexibility, you&#39;re on your own! " alt="" coords="5,492,104,519"/>
+</map>
