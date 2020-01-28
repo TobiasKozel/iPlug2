@@ -121,8 +121,7 @@ void IGraphics::SetLayoutOnResize(bool layoutOnResize)
 
 void IGraphics::RemoveControlWithTag(int ctrlTag)
 {
-  mControls.DeletePtr(GetControlWithTag(ctrlTag));
-  SetAllControlsDirty();
+  RemoveControl(GetControlWithTag(ctrlTag), false, true);
 }
 
 void IGraphics::RemoveControls(int fromIdx)
@@ -130,8 +129,9 @@ void IGraphics::RemoveControls(int fromIdx)
   int idx = NControls()-1;
   while (idx >= fromIdx)
   {
-    RemoveControl(idx--);
+    RemoveControl(idx--, true, false);
   }
+  SetAllControlsDirty();
 }
 
 void IGraphics::RemoveAllControls()
@@ -149,15 +149,15 @@ void IGraphics::RemoveAllControls()
   mLiveEdit = nullptr;
 #endif
   
-  mControls.Empty(true);
+  RemoveControls(0);
 }
 
-void IGraphics::RemoveControl(IControl* pControl, bool pWantsDelete)
+void IGraphics::RemoveControl(IControl* pControl, bool pWantsDelete, bool pSetDirty)
 {
   return RemoveControl(mControls.Find(pControl), pWantsDelete);
 }
 
-void IGraphics::RemoveControl(int paramIdx, bool pWantsDelete)
+void IGraphics::RemoveControl(int paramIdx, bool pWantsDelete, bool pSetDirty)
 {
   IControl* pControl = GetControl(paramIdx);
 
@@ -179,7 +179,9 @@ void IGraphics::RemoveControl(int paramIdx, bool pWantsDelete)
     mInPopupMenu = nullptr;
 
   mControls.DeletePtr(pControl, pWantsDelete);
-  SetAllControlsDirty();
+
+  if (pSetDirty)
+    SetAllControlsDirty();
 }
 
 void IGraphics::SetControlValueAfterTextEdit(const char* str)
@@ -239,29 +241,32 @@ IControl* IGraphics::AttachControl(IControl* pControl, int ctrlTag, const char* 
 
   WDL_PtrList<IControl> highPriority;
   WDL_PtrList<IControl> lowPriority;
-  const int cCount = mControls.GetSize();
+
   auto stackSortFunc = [](const IControl** a, const IControl** b) {
-    return (*a)->getRenderPriority() - (*b)->getRenderPriority();
+    return (*a)->GetRenderPriority() - (*b)->GetRenderPriority();
   };
-  for (int i = 0; i < cCount; i++) {
+
+  for (int i = 0; i < mControls.GetSize(); i++)
+  {
     IControl* c = mControls.Get(i);
-    if (c == nullptr) {
-      return pControl;
-    }
-    const int prio = c->getRenderPriority();
-    if (prio > 0) {
+
+    const int prio = c->GetRenderPriority();
+
+    if (prio > 0) 
       highPriority.InsertSorted(c, stackSortFunc);
-    }
-    else if (prio < 0) {
+    else if (prio < 0)
       lowPriority.InsertSorted(c, stackSortFunc);
-    }
   }
-  for (int i = lowPriority.GetSize() - 1; i >= 0; i--) {
+
+  for (int i = lowPriority.GetSize() - 1; i >= 0; i--)
+  {
     IControl* c = lowPriority.Get(i);
     mControls.DeletePtr(c);
     mControls.Insert(0, c);
   }
-  for (int i = 0; i < highPriority.GetSize(); i++) {
+
+  for (int i = 0; i < highPriority.GetSize(); i++)
+  {
     IControl* c = highPriority.Get(i);
     mControls.DeletePtr(c);
     mControls.Add(c);
