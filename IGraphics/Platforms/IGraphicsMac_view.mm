@@ -10,6 +10,10 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+#if defined IGRAPHICS_METAL
+#import <Metal/Metal.h>
+#endif
+
 #ifdef IGRAPHICS_IMGUI
 #import <Metal/Metal.h>
 #include "imgui.h"
@@ -269,15 +273,13 @@ static int MacKeyEventToVK(NSEvent* pEvent, int& flag)
   if (mIsEditingOrSelecting == NO)
   {
     // Get our ideal size for current text
-    NSSize textSize = [self cellSizeForBounds:theRect];
+    NSSize textSize = [self cellSize];
     
     // Center that in the proposed rect
     float heightDelta = newRect.size.height - textSize.height;
-    if (heightDelta > 0)
-    {
-      newRect.size.height -= heightDelta;
-      newRect.origin.y += (heightDelta / 2);
-    }
+    
+    newRect.size.height -= heightDelta;
+    newRect.origin.y += (heightDelta / 2);
   }
   
   return newRect;
@@ -460,6 +462,7 @@ extern StaticStorage<CoreTextFontDescriptor> sFontDescriptorCache;
     #if defined IGRAPHICS_METAL
     self.layer = [CAMetalLayer new];
     [(CAMetalLayer*)[self layer] setPixelFormat:MTLPixelFormatBGRA8Unorm];
+    ((CAMetalLayer*) self.layer).device = MTLCreateSystemDefaultDevice();
     #elif defined IGRAPHICS_GL
     self.layer = [[IGRAPHICS_GLLAYER alloc] initWithIGraphicsView:self];
     self.wantsBestResolutionOpenGLSurface = YES;
@@ -683,7 +686,7 @@ extern StaticStorage<CoreTextFontDescriptor> sFontDescriptorCache;
 {
   if (mGraphics)
   {
-    if (!mGraphics->GetCapturedControl())
+    if (!mGraphics->ControlIsCaptured())
     {
       mGraphics->OnMouseOut();
     }
@@ -705,7 +708,8 @@ extern StaticStorage<CoreTextFontDescriptor> sFontDescriptorCache;
     }
     else
     {
-      mGraphics->OnMouseDown(info.x, info.y, info.ms);
+      std::vector<IMouseInfo> list {info};
+      mGraphics->OnMouseDown(list);
     }
   }
 }
@@ -715,7 +719,9 @@ extern StaticStorage<CoreTextFontDescriptor> sFontDescriptorCache;
   IMouseInfo info = [self getMouseLeft:pEvent];
   if (mGraphics)
   {
-    mGraphics->OnMouseUp(info.x, info.y, info.ms);
+    std::vector<IMouseInfo> list {info};
+    mGraphics->OnMouseUp(list);
+
     if (mMouseOutDuringDrag)
     {
       mGraphics->OnMouseOut();
@@ -730,22 +736,33 @@ extern StaticStorage<CoreTextFontDescriptor> sFontDescriptorCache;
   float prevX = mPrevX;
   float prevY = mPrevY;
   IMouseInfo info = [self getMouseLeft:pEvent];
-  if (mGraphics && !mGraphics->IsInTextEntry())
-    mGraphics->OnMouseDrag(info.x, info.y, info.x - prevX, info.y - prevY, info.ms);
+  if (mGraphics && !mGraphics->IsInPlatformTextEntry())
+  {
+    info.dX = info.x - prevX;
+    info.dY = info.y - prevY;
+    std::vector<IMouseInfo> list {info};
+    mGraphics->OnMouseDrag(list);
+  }
 }
 
 - (void) rightMouseDown: (NSEvent*) pEvent
 {
   IMouseInfo info = [self getMouseRight:pEvent];
   if (mGraphics)
-    mGraphics->OnMouseDown(info.x, info.y, info.ms);
+  {
+    std::vector<IMouseInfo> list {info};
+    mGraphics->OnMouseDown(list);
+  }
 }
 
 - (void) rightMouseUp: (NSEvent*) pEvent
 {
   IMouseInfo info = [self getMouseRight:pEvent];
   if (mGraphics)
-    mGraphics->OnMouseUp(info.x, info.y, info.ms);
+  {
+    std::vector<IMouseInfo> list {info};
+    mGraphics->OnMouseUp(list);
+  }
 }
 
 - (void) rightMouseDragged: (NSEvent*) pEvent
@@ -756,7 +773,12 @@ extern StaticStorage<CoreTextFontDescriptor> sFontDescriptorCache;
   IMouseInfo info = [self getMouseRight:pEvent];
 
   if (mGraphics && !mTextFieldView)
-    mGraphics->OnMouseDrag(info.x, info.y, info.x - prevX, info.y - prevY, info.ms);
+  {
+    info.dX = info.x - prevX;
+    info.dY = info.y - prevY;
+    std::vector<IMouseInfo> list {info};
+    mGraphics->OnMouseDrag(list);
+  }
 }
 
 - (void) mouseMoved: (NSEvent*) pEvent
@@ -1046,8 +1068,9 @@ static void MakeCursorFromName(NSCursor*& cursor, const char *name)
   }
 
   CoreTextFontDescriptor* CTFontDescriptor = CoreTextHelpers::GetCTFontDescriptor(text, sFontDescriptorCache);
+  double ratio = CTFontDescriptor->GetEMRatio() * mGraphics->GetDrawScale();
   NSFontDescriptor* fontDescriptor = (NSFontDescriptor*) CTFontDescriptor->GetDescriptor();
-  NSFont* font = [NSFont fontWithDescriptor: fontDescriptor size: text.mSize * 0.75];
+  NSFont* font = [NSFont fontWithDescriptor: fontDescriptor size: text.mSize * ratio];
   [mTextFieldView setFont: font];
   
   switch (text.mAlign)
