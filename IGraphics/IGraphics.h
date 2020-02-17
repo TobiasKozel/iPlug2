@@ -1289,7 +1289,7 @@ public:
   }
 
   /** @param pControl The control to replace the currently captured control with, useful for drag and drop duplication */
-  void SetCapturedControl(IControl* pControl) { mMouseCapture = pControl; }
+  void SetCapturedControl(IControl* pControl) { mCapturedMap.clear();  mCapturedMap.insert(std::make_pair(0, pControl)); }
   /* Get the first control in the control list, the background */
   IControl* GetBackgroundControl() { return GetControl(0);  }
   

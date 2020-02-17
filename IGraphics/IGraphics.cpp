@@ -272,8 +272,8 @@ bool IGraphics::DetachControl(IControl* pControl)
 
   pControl->OnDetached();
 
-  if (pControl == mMouseCapture)
-    mMouseCapture = nullptr;
+  if (ControlIsCaptured(pControl))
+    ReleaseMouseCapture();
 
   if (pControl == mMouseOver)
     ClearMouseOver();
