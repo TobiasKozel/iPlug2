@@ -314,7 +314,7 @@ static AUAudioUnitPreset* NewAUPreset(NSInteger number, NSString* pName)
       }
     }
     
-    const char* paramGroupName = pParam->GetGroupForHost();
+    const char* paramGroupName = pParam->GetGroup();
     auto clumpID = 0;
 
     if (CStringHasContents(paramGroupName))
@@ -339,7 +339,7 @@ static AUAudioUnitPreset* NewAUPreset(NSInteger number, NSString* pName)
     AUParameterAddress address = AUParameterAddress(paramIdx);
 
     AUParameter *pAUParam = [AUParameterTree createParameterWithIdentifier:    [NSString stringWithFormat:@"%d", paramIdx ]
-                                                                         name: [NSString stringWithCString:pParam->GetNameForHost() encoding:NSUTF8StringEncoding]
+                                                                         name: [NSString stringWithCString:pParam->GetName() encoding:NSUTF8StringEncoding]
                                                                       address: address
                                                                           min: pParam->GetMin()
                                                                           max: pParam->GetMax()
@@ -382,10 +382,12 @@ static AUAudioUnitPreset* NewAUPreset(NSInteger number, NSString* pName)
   // Create factory preset array.
   NSMutableArray* pPresets = [[NSMutableArray alloc] init];
   
-  if(mPlug->NPresets() == 0 ) {
+  if(mPlug->NPresets() == 0 )
+  {
     [pPresets addObject:NewAUPreset(0, @"Default")];
   }
-  else {
+  else
+  {
     for(auto i = 0; i < mPlug->NPresets(); i++)
     {
       [pPresets addObject:NewAUPreset(i, [NSString stringWithCString: mPlug->GetPresetName(i) encoding:NSUTF8StringEncoding])];
@@ -415,7 +417,7 @@ static AUAudioUnitPreset* NewAUPreset(NSInteger number, NSString* pName)
 
   mParameterTree.implementorStringFromValueCallback = ^(AUParameter *param, const AUValue *__nullable valuePtr) {
     AUValue value = valuePtr == nil ? param.value : *valuePtr;
-    return [NSString stringWithCString:pPlug->GetParamDisplayForHost(param.address, value) encoding:NSUTF8StringEncoding];
+    return [NSString stringWithCString:pPlug->GetParamDisplay(param.address, value) encoding:NSUTF8StringEncoding];
   };
 
   mParameterTree.implementorValueFromStringCallback = ^(AUParameter* param, NSString* string) {
@@ -458,20 +460,25 @@ static AUAudioUnitPreset* NewAUPreset(NSInteger number, NSString* pName)
 
 #pragma mark - AUAudioUnit (Overrides)
 
-- (AUAudioUnitBusArray *)inputBusses {
+- (AUAudioUnitBusArray *)inputBusses
+{
   return _mInputBusArray;
 }
 
-- (AUAudioUnitBusArray *)outputBusses {
+- (AUAudioUnitBusArray *)outputBusses
+{
   return _mOutputBusArray;
 }
 
-- (NSArray<NSString*> *) MIDIOutputNames {
+- (NSArray<NSString*> *) MIDIOutputNames
+{
   return mMidiOutputNames;
 }
 
-- (BOOL)allocateRenderResourcesAndReturnError:(NSError **)ppOutError {
-  if (![super allocateRenderResourcesAndReturnError:ppOutError]) {
+- (BOOL)allocateRenderResourcesAndReturnError:(NSError **)ppOutError
+{
+  if (![super allocateRenderResourcesAndReturnError:ppOutError])
+  {
     return NO;
   }
   
@@ -496,21 +503,25 @@ static AUAudioUnitPreset* NewAUPreset(NSInteger number, NSString* pName)
 //    return NO;
 //  }
   
-  if (@available(macOS 10.13, *)) {
+  if (@available(macOS 10.13, *))
+  {
     if(self.MIDIOutputEventBlock)
       mMidiOutputEventBlock = self.MIDIOutputEventBlock;
     else
       mMidiOutputEventBlock = nil;
-  } else {
+  } else
+  {
     mMidiOutputEventBlock = nil;
   }
   
     
-  for (auto bufIdx = 0; bufIdx < mBufferedInputBuses.GetSize(); bufIdx++) {
+  for (auto bufIdx = 0; bufIdx < mBufferedInputBuses.GetSize(); bufIdx++)
+  {
     mBufferedInputBuses.Get(bufIdx)->allocateRenderResources(self.maximumFramesToRender);
   }
   
-  for (auto bufIdx = 0; bufIdx < mBufferedOutputBuses.GetSize(); bufIdx++) {
+  for (auto bufIdx = 0; bufIdx < mBufferedOutputBuses.GetSize(); bufIdx++)
+  {
     mBufferedOutputBuses.Get(bufIdx)->allocateRenderResources(self.maximumFramesToRender);
   }
 
@@ -521,13 +532,15 @@ static AUAudioUnitPreset* NewAUPreset(NSInteger number, NSString* pName)
   return YES;
 }
 
-- (void)deallocateRenderResources {
-  
-  for (auto bufIdx = 0; bufIdx < mBufferedInputBuses.GetSize(); bufIdx++) {
+- (void)deallocateRenderResources
+{
+  for (auto bufIdx = 0; bufIdx < mBufferedInputBuses.GetSize(); bufIdx++)
+  {
     mBufferedInputBuses.Get(bufIdx)->deallocateRenderResources();
   }
   
-  for (auto bufIdx = 0; bufIdx < mBufferedOutputBuses.GetSize(); bufIdx++) {
+  for (auto bufIdx = 0; bufIdx < mBufferedOutputBuses.GetSize(); bufIdx++)
+  {
     mBufferedOutputBuses.Get(bufIdx)->deallocateRenderResources();
   }
   
@@ -538,7 +551,8 @@ static AUAudioUnitPreset* NewAUPreset(NSInteger number, NSString* pName)
 
 #pragma mark - AUAudioUnit (AUAudioUnitImplementation)
 
-- (AUInternalRenderBlock)internalRenderBlock {
+- (AUInternalRenderBlock)internalRenderBlock
+{
 
   __block IPlugAUv3* pPlug = mPlug;
   __block WDL_PtrList<BufferedInputBus>* inputBuses = &mBufferedInputBuses;
@@ -759,7 +773,6 @@ static AUAudioUnitPreset* NewAUPreset(NSInteger number, NSString* pName)
 - (void)selectViewConfiguration:(AUAudioUnitViewConfiguration *)viewConfiguration  API_AVAILABLE(macos(10.13), ios(11))
 {
   TRACE
-  
   mPlug->OnHostSelectedViewConfiguration((int) [viewConfiguration width], (int) [viewConfiguration height]);
 }
 

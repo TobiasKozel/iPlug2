@@ -66,6 +66,10 @@
 #undef DrawText
 #endif
 
+#ifdef LoadBitmap
+#undef LoadBitmap
+#endif
+
 BEGIN_IPLUG_NAMESPACE
 class IParam;
 BEGIN_IGRAPHICS_NAMESPACE
@@ -354,7 +358,7 @@ public:
    * @param text An IText struct containing font and text properties and layout info
    * @param str The text string to draw in the graphics context
    * @param bounds after calling the method this IRECT will be updated with the rectangular region the text will occupy */
-  virtual void MeasureText(const IText& text, const char* str, IRECT& bounds) const;
+  virtual float MeasureText(const IText& text, const char* str, IRECT& bounds) const;
 
   /** Get the color of a point in the graphics context. On a 1:1 screen this corresponds to a pixel. \todo check this
    * @param x The X coordinate in the graphics context of the pixel
@@ -736,6 +740,11 @@ private:
 
 public:
 #pragma mark - Platform implementation
+  /** Get the x, y position in the graphics context of the mouse cursor
+   * @param x Where the X position will be stored
+   * @param y Where the Y position will be stored */
+  virtual void GetMouseLocation(float& x, float&y) const = 0;
+  
   /** Call to hide the mouse cursor 
    * @param hide /todo
    * @param lock /todo */
@@ -780,9 +789,9 @@ public:
   virtual bool GetTextFromClipboard(WDL_String& str) = 0;
 
   /** Set text in the clipboard
-   * @param str A WDL_String that will be used to set the current text in the clipboard
+   * @param str A CString that will be used to set the current text in the clipboard
    * @return /c true on success */
-  virtual bool SetTextInClipboard(const WDL_String& str) = 0;
+  virtual bool SetTextInClipboard(const char* str) = 0;
 
   /** Call this if you modify control tool tips at runtime. \todo explain */
   virtual void UpdateTooltips() = 0;
@@ -981,8 +990,9 @@ public:
    * @param w New width in pixels
    * @param h New height in pixels
    * @param scale New scale ratio
-   * @param skipWindow will leave the window size as is */
-  void Resize(int w, int h, float scale, bool skipWindow = false);
+   * @param needsPlatformResize This should be true for a "manual" resize from the plug-in UI and false
+   * if being called from IEditorDelegate::OnParentWindowResize(), in order to avoid feedback */
+  void Resize(int w, int h, float scale, bool needsPlatformResize = true);
   
   /** Enables strict drawing mode. \todo explain strict drawing
    * @param strict Set /true to enable strict drawing mode */
@@ -1201,9 +1211,13 @@ public:
   void ForControlInGroup(const char* group, std::function<void(IControl& control)> func);
   
   /** Attach an IBitmapControl as the lowest IControl in the control stack to be the background for the graphics context
-   * @param fileName CString fileName resource id for the bitmap image \todo check this */
+   * @param fileName CString fileName resource id for the bitmap image */
   void AttachBackground(const char* fileName);
 
+  /** Attach an ISVGControl as the lowest IControl in the control stack to be the background for the graphics context
+   * @param fileName CString fileName resource id for the SVG image */
+  void AttachSVGBackground(const char* fileName);
+  
   /** Attach an IPanelControl as the lowest IControl in the control stack to fill the background with a solid color
    * @param color The color to fill the panel with */
   void AttachPanelBackground(const IPattern& color);
@@ -1222,6 +1236,15 @@ public:
    @param bounds The area that the menu should occupy /todo check */
   void AttachPopupMenuControl(const IText& text = DEFAULT_TEXT, const IRECT& bounds = IRECT());
   
+  /** Remove the IGraphics popup menu, use platform popup menu if available */
+  void RemovePopupMenuControl();
+  
+  /** Attach a control for text entry, to override platform text entry */
+  void AttachTextEntryControl();
+  
+  /** Remove the IGraphics text entry, use platform text entry if available */
+  void RemoveTextEntryControl();
+  
   /** Attach the default control to show text as a control changes*/
   void AttachBubbleControl(const IText& text = DEFAULT_TEXT);
 
@@ -1237,9 +1260,6 @@ public:
   
   /** @return \c true if performance display is shown */
   bool ShowingFPSDisplay() { return mPerfDisplay != nullptr; }
-
-  /** Attach a control for text entry, to override platform text entry */
-  void AttachTextEntryControl();
   
   /** Attach an IControl to the graphics context and add it to the top of the control stack. The control is owned by the graphics context and will be deleted when the context is deleted.
    * @param pControl A pointer to an IControl to attach.
@@ -1573,8 +1593,8 @@ protected:
    * @param text /todo
    * @param str /todo
    * @param bounds /todo
-   * @param pBlend /todo */
-  virtual void DoMeasureText(const IText& text, const char* str, IRECT& bounds) const = 0;
+   * @return The width of the text */
+  virtual float DoMeasureText(const IText& text, const char* str, IRECT& bounds) const = 0;
     
   /** /todo
    * @param text /todo
