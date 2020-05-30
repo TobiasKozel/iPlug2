@@ -246,14 +246,14 @@ IControl* IGraphics::AttachControl(IControl* pControl, int ctrlTag, const char* 
   WDL_PtrList<IControl> lowPriority;
 
   auto stackSortFunc = [](const IControl** a, const IControl** b) {
-    return (*a)->GetRenderPriority() - (*b)->GetRenderPriority();
+    return (*a)->GetZIndex() - (*b)->GetZIndex();
   };
 
   for (int i = 0; i < mControls.GetSize(); i++)
   {
     IControl* c = mControls.Get(i);
 
-    const int prio = c->GetRenderPriority();
+    const int prio = c->GetZIndex();
 
     if (prio > 0) 
       highPriority.InsertSorted(c, stackSortFunc);

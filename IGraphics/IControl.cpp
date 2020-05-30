@@ -193,9 +193,9 @@ void IControl::SetValueToDefault(int valIdx)
   SetDirty(true, valIdx);
 }
 
-void IControl::SetRenderPriority(int priority, bool doSort)
+void IControl::SetZIndex(int priority, bool doSort)
 {
-  mRenderPriority = priority;
+  mZIndex = priority;
 
   if (doSort && priority != 0)
   {
