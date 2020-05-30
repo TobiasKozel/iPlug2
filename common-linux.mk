@@ -495,7 +495,7 @@ $(_IDEPS_INSTALL_PATH)/lib/librtaudio.a:
 		@rm -rf $(_IDEPS_INSTALL_PATH)/tmp
 		@mkdir $(_IDEPS_INSTALL_PATH)/tmp
 		@cp -a $(_IDEPS_PATH)/IPlug/RTAudio/* $(_IDEPS_INSTALL_PATH)/tmp/
-		@cd $(_IDEPS_INSTALL_PATH)/tmp && ./autogen.sh --no-configure && ./configure $(_RTAUDIO_CONFIG) && make
+		@cd $(_IDEPS_INSTALL_PATH)/tmp && ./autogen.sh --no-configure && chmod a+x ./configure && ./configure $(_RTAUDIO_CONFIG) && make
 		@cp $(_IDEPS_INSTALL_PATH)/tmp/.libs/librtaudio.a $@
 		@rm -rf $(_IDEPS_INSTALL_PATH)/tmp
 
@@ -506,7 +506,7 @@ $(_IDEPS_INSTALL_PATH)/lib/librtmidi.a:
 		@rm -rf $(_IDEPS_INSTALL_PATH)/tmp
 		@mkdir $(_IDEPS_INSTALL_PATH)/tmp
 		@cp -a $(_IDEPS_PATH)/IPlug/RTMidi/* $(_IDEPS_INSTALL_PATH)/tmp/
-		@cd $(_IDEPS_INSTALL_PATH)/tmp && ./autogen.sh && make
+		@cd $(_IDEPS_INSTALL_PATH)/tmp && chmod a+x ./configure &&  ./autogen.sh && make
 		@cp $(_IDEPS_INSTALL_PATH)/tmp/.libs/librtmidi.a $@
 		@rm -rf $(_IDEPS_INSTALL_PATH)/tmp
 
