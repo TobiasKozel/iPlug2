@@ -139,6 +139,30 @@ void IGraphics::RemoveControls(int fromIdx)
   }
 }
 
+void IGraphics::RemoveControl(int idx)
+{
+  RemoveControl(GetControl(idx));
+}
+
+void IGraphics::RemoveControl(IControl* pControl)
+{
+  if(ControlIsCaptured(pControl))
+    ReleaseMouseCapture();
+  
+  if (pControl == mMouseOver)
+    ClearMouseOver();
+  
+  if (pControl == mInTextEntry)
+    mInTextEntry = nullptr;
+  
+  if (pControl == mInPopupMenu)
+    mInPopupMenu = nullptr;
+  
+  mControls.DeletePtr(pControl, true);
+  
+  SetAllControlsDirty();
+}
+
 void IGraphics::RemoveAllControls()
 {
   ReleaseMouseCapture();
@@ -1504,14 +1528,14 @@ void IGraphics::EnableTooltips(bool enable)
   if (enable) mEnableMouseOver = true;
 }
 
-void IGraphics::EnableLiveEdit(bool enable, const char* file, int gridsize)
+void IGraphics::EnableLiveEdit(bool enable)
 {
 #ifndef NDEBUG
   if (enable)
   {
     if (!mLiveEdit)
     {
-      mLiveEdit = std::make_unique<IGraphicsLiveEdit>(mEnableMouseOver/*, file, gridsize*/);
+      mLiveEdit = std::make_unique<IGraphicsLiveEdit>(mEnableMouseOver);
       mLiveEdit->SetDelegate(*GetDelegate());
     }
   }

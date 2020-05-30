@@ -301,12 +301,6 @@ public:
    * @param pBlend Optional blend method, see IBlend documentation */
   virtual void FillCircle(const IColor& color, float cx, float cy, float r, const IBlend* pBlend = 0) = 0;
 
-  /** Fill a circle in the graphics context with a color
-   * @param color The color to fill the shape with
-   * @param rect The rectangle to draw the circle in
-   * @param pBlend Optional blend method, see IBlend documentation */
-  virtual void FillCircle(const IColor& color, IRECT& rect, const IBlend* pBlend = 0);
-
   /** Fill an ellipse within a rectangular region of the graphics context
    * @param color The color to fill the shape with
    * @param bounds The rectangular region to fill the shape in
@@ -1099,12 +1093,10 @@ public:
   /**@return \c true if showning the control bounds */
   bool ShowControlBoundsEnabled() const { return mShowControlBounds; }
   
-  /** Live edit mode allows you to relocate controls at runtime in debug builds and save the locations to a predefined file (e.g. main plugin .cpp file) \todo we need a separate page for liveedit info
-   * @param enable Set \c true if you wish to enable live editing mode
-   * @param file The absolute path of the file which contains the layout info (correctly tagged) for live editing
-   * @param gridsize The size of the layout grid in pixels */
-  void EnableLiveEdit(bool enable, const char* file = 0, int gridsize = 10);
-  
+  /** Live edit mode allows you to relocate controls at runtime in debug builds
+   * @param enable Set \c true if you wish to enable live editing mode */
+  void EnableLiveEdit(bool enable);
+
   /**@return \c true if live edit mode is enabled */
   bool LiveEditEnabled() const { return mLiveEdit != nullptr; }
   
