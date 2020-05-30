@@ -14,6 +14,8 @@
 
 #include "IPlugStructs.h"
 
+#include "IPlugVST3_RunLoop.h"
+
 /** IPlug VST3 View  */
 template <class T>
 class IPlugVST3View : public Steinberg::CPluginView
@@ -44,6 +46,9 @@ public:
       
 #elif defined OS_MAC
       if (strcmp (type, Steinberg::kPlatformTypeNSView) == 0)
+        return Steinberg::kResultTrue;
+#elif defined OS_LINUX
+      if (strcmp (type, Steinberg::kPlatformTypeX11EmbedWindowID) == 0)
         return Steinberg::kResultTrue;
 #endif
     }
@@ -90,6 +95,11 @@ public:
         pView = mOwner.OpenWindow(pParent);
       else // Carbon
         return Steinberg::kResultFalse;
+#elif defined OS_LINUX
+      if (strcmp (type, Steinberg::kPlatformTypeX11EmbedWindowID) == 0)
+        mOwner.OpenWindow(pParent);
+      else
+        return Steinberg::kResultFalse;
 #endif
       return Steinberg::kResultTrue;
     }
@@ -110,6 +120,13 @@ public:
     mOwner.SetScreenScale(factor);
 
     return Steinberg::kResultOk;
+  }
+
+  Steinberg::tresult PLUGIN_API setFrame (Steinberg::IPlugFrame* frame) override 
+  { 
+    mOwner.SetIntegration(iplug::IPlugVST3_EmbedFactory(frame));
+    
+    return CPluginView::setFrame(frame);
   }
 
   Steinberg::tresult PLUGIN_API queryInterface(const Steinberg::TUID _iid, void** obj) override

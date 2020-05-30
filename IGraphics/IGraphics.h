@@ -301,6 +301,8 @@ public:
    * @param pBlend Optional blend method, see IBlend documentation */
   virtual void FillCircle(const IColor& color, float cx, float cy, float r, const IBlend* pBlend = 0) = 0;
 
+  void FillCircle(const IColor& color, IRECT& rect, const IBlend* pBlend = 0);
+
   /** Fill an ellipse within a rectangular region of the graphics context
    * @param color The color to fill the shape with
    * @param bounds The rectangular region to fill the shape in
@@ -761,7 +763,11 @@ public:
 
   /** Call to force end text entry (will cancel any half input text \todo check) */
   virtual void ForceEndUserEdit() = 0;
-    
+
+  /** Set platform specific host GUI event loop integration
+   * @param mainLoop is something the host and graphics implementation should agree on*/
+  virtual void SetIntegration(void *mainLoop) {}
+
   /** Open a new platform view for this graphics context
    * @param pParentWnd void pointer to parent platform window or view handle (if applicable) \todo check
    * @return void pointer to newly created IGraphics platform view */
